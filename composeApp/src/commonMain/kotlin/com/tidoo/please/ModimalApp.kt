@@ -21,23 +21,6 @@ import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ModimalApp() {
-    MaterialTheme(
-        colors = lightColors(
-            primary = Color(0xFF303030),
-            secondary = Color(0xFF8C6A4F),
-            background = Color(0xFFFCFCFC),
-            surface = Color.White
-        ),
-        typography = Typography(
-            defaultFontFamily = FontFamily.Default
-        )
-    ) {
-        ModimalLandingPage()
-    }
-}
-
-@Composable
 fun ModimalLandingPage() {
     val scrollState = rememberScrollState()
 
