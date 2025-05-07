@@ -15,12 +15,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextPainter.paint
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tidoo.please.theme.AppTheme
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
+import please.composeapp.generated.resources.Res
+import please.composeapp.generated.resources.best_seller_1
+import please.composeapp.generated.resources.best_seller_2
+import please.composeapp.generated.resources.best_seller_3
+import please.composeapp.generated.resources.bg_hero
 
 @Composable
 fun ModimalApp() {
@@ -32,7 +40,6 @@ fun ModimalApp() {
 @Composable
 fun ModimalLandingPage() {
     val scrollState = rememberScrollState()
-
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -56,18 +63,19 @@ fun Header() {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         elevation = 1.dp,
-        color = MaterialTheme.colorScheme.surface
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+                .background(color = Color.White)
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+            ,
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Logo
             Text(
-                text = "modimal.",
+                text = "zasa.",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Medium
             )
@@ -122,12 +130,10 @@ fun HeroBanner() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(500.dp)
             .background(color = Color(0xFFF5F5F0))
     ) {
-        // Background image would be loaded here in a real app
         Image(
-            imageResource("hero_background.jpg"),
+            painter = painterResource(Res.drawable.bg_hero),
             contentDescription = "Hero image with models",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
@@ -201,21 +207,21 @@ fun BestSellers() {
             ProductCard(
                 name = "Tailored Overalls",
                 price = "$300",
-                imageUrl = "product1.jpg",
+                drawable = Res.drawable.best_seller_1,
                 colors = listOf(Color(0xFF303030), Color(0xFF615E59), Color(0xFF8C6A4F))
             )
 
             ProductCard(
                 name = "Technical Silk",
                 price = "$325",
-                imageUrl = "product2.jpg",
+                drawable = Res.drawable.best_seller_2,
                 colors = listOf(Color(0xFF303030), Color(0xFF8C6A4F), Color(0xFF5E7358))
             )
 
             ProductCard(
                 name = "Cool Weave",
                 price = "$285",
-                imageUrl = "product3.jpg",
+                drawable = Res.drawable.best_seller_3,
                 colors = listOf(Color(0xFF303030), Color(0xFF5E7358), Color(0xFFD7D0C8))
             )
         }
@@ -223,7 +229,7 @@ fun BestSellers() {
 }
 
 @Composable
-fun ProductCard(name: String, price: String, imageUrl: String, colors: List<Color>) {
+fun ProductCard(name: String, price: String, drawable : DrawableResource, colors: List<Color>) {
     Column(
         modifier = Modifier
             .width(250.dp)
@@ -237,7 +243,7 @@ fun ProductCard(name: String, price: String, imageUrl: String, colors: List<Colo
         ) {
             // Product image would be loaded here in a real app
             Image(
-                imageResource(imageUrl),
+                painter = painterResource(drawable),
                 contentDescription = name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
