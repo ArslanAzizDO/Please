@@ -2,37 +2,29 @@ package com.tidoo.please
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import com.tidoo.please.theme.AppTheme
 
 @Composable
 fun ModimalApp() {
-    MaterialTheme(
-        colors = lightColors(
-            primary = Color(0xFF303030),
-            secondary = Color(0xFF8C6A4F),
-            background = Color(0xFFFCFCFC),
-            surface = Color.White
-        ),
-        typography = Typography(
-            defaultFontFamily = FontFamily.Default
-        )
-    ) {
+    AppTheme {
         ModimalLandingPage()
     }
 }
@@ -64,7 +56,7 @@ fun Header() {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         elevation = 1.dp,
-        color = Color.White
+        color = MaterialTheme.colorScheme.surface
     ) {
         Row(
             modifier = Modifier
