@@ -1,28 +1,52 @@
 package com.tidoo.please
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.TextPainter.paint
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tidoo.please.models.Product
+import com.tidoo.please.models.products
 import com.tidoo.please.theme.AppTheme
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import please.composeapp.generated.resources.Res
 import please.composeapp.generated.resources.best_seller_1
@@ -65,12 +89,14 @@ fun Header() {
         modifier = Modifier.fillMaxWidth(),
         elevation = 1.dp,
     ) {
+
+        val breakpoint = rememberDeviceBreakpoint()
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = Color.White)
-                .padding(horizontal = 16.dp, vertical = 12.dp)
-            ,
+                .padding(horizontal = 16.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -82,36 +108,38 @@ fun Header() {
             )
 
             // Navigation
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                NavItem("Collection")
-                NavItem("New In")
-                NavItem("Modiweek")
-                NavItem("Plus Size")
-                NavItem("Sustainability")
-            }
+            if (breakpoint == DeviceBreakpoint.DesktopOrWeb)
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    NavItem("Collection")
+                    NavItem("New In")
+                    NavItem("Modiweek")
+                    NavItem("Plus Size")
+                    NavItem("Sustainability")
+                }
 
             // Icons
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(onClick = {}) {
-                    Icon(Icons.Default.Search, contentDescription = "Search")
-                }
-                IconButton(onClick = {}) {
-                    Icon(Icons.Default.Person, contentDescription = "Account")
-                }
-                IconButton(onClick = {}) {
-                    Icon(Icons.Default.FavoriteBorder, contentDescription = "Favorites")
-                }
-                IconButton(onClick = {}) {
-                    Icon(Icons.Default.Search, contentDescription = "Cart")
+            if (breakpoint == DeviceBreakpoint.DesktopOrWeb)
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Default.Search, contentDescription = "Search")
+                    }
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Default.Person, contentDescription = "Account")
+                    }
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Default.FavoriteBorder, contentDescription = "Favorites")
+                    }
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Default.Search, contentDescription = "Cart")
 //                    Icon(Icons.Default.ShoppingBag, contentDescription = "Cart")
+                    }
                 }
-            }
         }
     }
 }
@@ -150,13 +178,13 @@ fun HeroBanner() {
                 text = "Elegance In Simplicity,",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Light,
-                color = Color.DarkGray
+                color = Color.White
             )
             Text(
                 text = "Earth's Harmony",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Light,
-                color = Color.DarkGray,
+                color = Color.White,
                 modifier = Modifier.padding(bottom = 24.dp)
             )
             Button(
@@ -201,36 +229,19 @@ fun BestSellers() {
             )
         }
 
-        Row(
+        LazyRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            ProductCard(
-                name = "Tailored Overalls",
-                price = "$300",
-                drawable = Res.drawable.best_seller_1,
-                colors = listOf(Color(0xFF303030), Color(0xFF615E59), Color(0xFF8C6A4F))
-            )
-
-            ProductCard(
-                name = "Technical Silk",
-                price = "$325",
-                drawable = Res.drawable.best_seller_2,
-                colors = listOf(Color(0xFF303030), Color(0xFF8C6A4F), Color(0xFF5E7358))
-            )
-
-            ProductCard(
-                name = "Cool Weave",
-                price = "$285",
-                drawable = Res.drawable.best_seller_3,
-                colors = listOf(Color(0xFF303030), Color(0xFF5E7358), Color(0xFFD7D0C8))
-            )
+            items(products.size) { index ->
+                ProductCard(products[index])
+            }
         }
     }
 }
 
 @Composable
-fun ProductCard(name: String, price: String, drawable : DrawableResource, colors: List<Color>) {
+fun ProductCard(product: Product) {
     Column(
         modifier = Modifier
             .width(250.dp)
@@ -244,8 +255,8 @@ fun ProductCard(name: String, price: String, drawable : DrawableResource, colors
         ) {
             // Product image would be loaded here in a real app
             Image(
-                painter = painterResource(drawable),
-                contentDescription = name,
+                painter = painterResource(product.drawable),
+                contentDescription = product.name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
@@ -265,14 +276,14 @@ fun ProductCard(name: String, price: String, drawable : DrawableResource, colors
         }
 
         Text(
-            text = name,
+            text = product.name,
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
             modifier = Modifier.padding(top = 8.dp)
         )
 
         Text(
-            text = price,
+            text = product.price,
             fontSize = 16.sp,
             modifier = Modifier.padding(top = 4.dp, bottom = 8.dp)
         )
@@ -280,7 +291,7 @@ fun ProductCard(name: String, price: String, drawable : DrawableResource, colors
         Row(
             horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            colors.forEach { color ->
+            product.colors.forEach { color ->
                 Box(
                     modifier = Modifier
                         .size(16.dp)
