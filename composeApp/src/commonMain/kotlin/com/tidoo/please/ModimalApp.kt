@@ -34,7 +34,6 @@ fun ModimalLandingPage() {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(scrollState)
         ) {
             item {
                 Header()

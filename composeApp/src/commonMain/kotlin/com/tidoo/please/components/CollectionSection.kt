@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -29,64 +29,30 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun CollectionSection() {
+    Column {
+        Text(
+            text = "Collection",
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
         LazyVerticalStaggeredGrid(
             modifier = Modifier
-                .fillMaxSize() // 👈 provides bounded constraints
+                .fillMaxWidth()
+                .heightIn(max = (Short.MAX_VALUE).toInt().dp)
                 .padding(24.dp),
             userScrollEnabled = false,
             columns = StaggeredGridCells.Fixed(2),
             contentPadding = PaddingValues(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ){
-            item {
-                Text(
-                    text = "Collection",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-            }
+        ) {
             items(collections.size) { index ->
                 CollectionCard(
                     collections[index]
                 )
             }
         }
-
-//
-//        Row(
-//            modifier = Modifier.fillMaxWidth(),
-//            horizontalArrangement = Arrangement.spacedBy(16.dp)
-//        ) {
-//            CollectionCard(
-//                imageUrl = "collection1.jpg",
-//                title = "Blouses",
-//                modifier = Modifier.weight(1f)
-//            )
-//            CollectionCard(
-//                imageUrl = "collection2.jpg",
-//                title = "Pants",
-//                modifier = Modifier.weight(1f)
-//            )
-//        }
-//
-//        Spacer(Modifier.height(16.dp))
-//
-//        Row(
-//            modifier = Modifier.fillMaxWidth(),
-//            horizontalArrangement = Arrangement.spacedBy(16.dp)
-//        ) {
-//            CollectionCard(
-//                imageUrl = "collection3.jpg",
-//                title = "Dresses",
-//                modifier = Modifier.weight(1f)
-//            )
-//            CollectionCard(
-//                imageUrl = "collection4.jpg",
-//                title = "Coats",
-//                modifier = Modifier.weight(1f)
-//            )
-//        }
+    }
 }
 
 @Composable
