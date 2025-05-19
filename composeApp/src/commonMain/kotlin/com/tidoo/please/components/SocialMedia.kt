@@ -1,35 +1,41 @@
 package com.tidoo.please.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tidoo.please.imageResource
+import org.jetbrains.compose.resources.painterResource
+import please.composeapp.generated.resources.Res
+import please.composeapp.generated.resources.bg_social_1
+import please.composeapp.generated.resources.bg_social_2
+import please.composeapp.generated.resources.bg_social_3
+import please.composeapp.generated.resources.bg_social_4
+import please.composeapp.generated.resources.bg_social_5
 
 @Composable
 fun SocialMedia() {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -40,55 +46,54 @@ fun SocialMedia() {
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        LazyVerticalStaggeredGrid(
-            columns = StaggeredGridCells.Fixed(2),
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = Modifier.fillMaxSize()
+        BoxWithConstraints(
+            modifier = Modifier.fillMaxWidth()
         ) {
+            val totalWidth = maxWidth
+            val mainImageHeight = totalWidth * 0.6f
+            val smallImageHeight = mainImageHeight / 2
+            val verticalSpacing = 8.dp
 
+            val gridHeight = smallImageHeight * 2 + verticalSpacing
 
-            item(
-                span = StaggeredGridItemSpan.FullLine
+            LazyHorizontalGrid(
+                rows = GridCells.Fixed(2),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(gridHeight),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(verticalSpacing),
+                userScrollEnabled = false
             ) {
-                Box(
-                    modifier = Modifier
-                        .height(100.dp)
-                        .fillMaxWidth()
-                        .background(Color.Red)
-                )
-            }
-            item {
-                Box(modifier = Modifier.height(100.dp)) {
-                    Box(
+                item(span = { GridItemSpan(2) }) {
+                    Image(
+                        painter = painterResource(Res.drawable.bg_social_1),
+                        contentDescription = "Main image",
+                        contentScale = ContentScale.Crop,
                         modifier = Modifier
-                            .height(200.dp)
-                            .fillMaxWidth()
-                            .background(Color.Green)
+                            .height(mainImageHeight)
+                            .aspectRatio(0.6f)
+                    )
+                }
+
+                items(4) { index ->
+                    val imageRes = when (index) {
+                        0 -> Res.drawable.bg_social_2
+                        1 -> Res.drawable.bg_social_3
+                        2 -> Res.drawable.bg_social_4
+                        else -> Res.drawable.bg_social_5
+                    }
+
+                    Image(
+                        painter = painterResource(imageRes),
+                        contentDescription = "Image $index",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .height(smallImageHeight)
+                            .aspectRatio(1f)
                     )
                 }
             }
         }
-
-//        Row(
-//            modifier = Modifier.fillMaxWidth(),
-//            horizontalArrangement = Arrangement.spacedBy(8.dp)
-//        ) {
-//            for (i in 1..3) {
-//                Box(
-//                    modifier = Modifier
-//                        .weight(1f)
-//                        .aspectRatio(1f)
-//                        .background(Color.LightGray)
-//                ) {
-//                    // Social media image would be loaded here in a real app
-//                    Image(
-//                        imageResource("social$i.jpg"),
-//                        contentDescription = "Social media post $i",
-//                        contentScale = ContentScale.Crop,
-//                        modifier = Modifier.fillMaxSize()
-//                    )
-//                }
-//            }
-//        }
     }
 }
