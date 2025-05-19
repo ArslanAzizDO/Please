@@ -100,21 +100,19 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
-            signingConfig = signingConfigs.getByName("debug")
+        release {
+            signingConfig = signingConfigs.getByName("release")
+            isDebuggable = false
+            isMinifyEnabled = false
+            isShrinkResources = false
+            matchingFallbacks += listOf("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android.txt"),
                 "proguard-rules.pro"
             )
         }
-//        D:\Projects\kmp\Please\composeApp\src\keystore.jks' not found for signing config 'release'.
-//        D:\Projects\kmp\Please\composeApp\src\androidMain
-        getByName("release") {
-            signingConfig = signingConfigs.getByName("release")
-            isShrinkResources = true
-            isMinifyEnabled = true
-            isDebuggable = false
-            matchingFallbacks += listOf("release")
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android.txt"),
                 "proguard-rules.pro"
